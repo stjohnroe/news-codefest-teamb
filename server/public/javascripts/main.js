@@ -9,8 +9,8 @@ $(document).ready(function () {
     if (navigator.webkitGetUserMedia) {
       navigator.webkitGetUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
       setInterval(function () {
-        multiStreamRecorder.stop();
-      }, 3 * 1000);
+        $('video').hide();
+      }, 11 * 1000);
     } else {
         alert('Warning: Your Browser Doesnt support video replies')
     }
@@ -28,11 +28,13 @@ function onMediaSuccess(stream) {
   video.src = window.URL.createObjectURL(stream);
 
   var multiStreamRecorder = new MultiStreamRecorder(stream);
-  multiStreamRecorder.video = document.querySelector('video');
-  multiStreamRecorder.ondataavailable = function (blobs) {
-
+  multiStreamRecorder.mimeType = 'video/mp4';
+  multiStreamRecorder.videoWidth = 320;
+  multiStreamRecorder.videoHeight = 240;
+  multiStreamRecorder.ondataavailable = function (blob) {
+    console.log(blob);
   }
-  multiStreamRecorder.start(300 * 1000);
+  multiStreamRecorder.start(10 * 1000);
 }
 
 function onMediaError(err) {
