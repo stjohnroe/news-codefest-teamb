@@ -3,9 +3,11 @@ extends layout
 block content
   h1 #{title}
 
-  each story in stories
-    .teasers
-      a(href="/#{story.id}") 	
-        h5 #{story.headline}
-      a(href="/#{story.id}/create")
-        h5 Vomment
+  .row
+    each story in stories
+      .col-md-8
+        a(href="/#{story.id}")
+          h5 #{story.headline}
+      .col-md-4
+        a(href="/#{story.id}/create")
+          h5 Vomment
