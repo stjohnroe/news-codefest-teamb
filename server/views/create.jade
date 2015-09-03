@@ -1,7 +1,9 @@
 extends layout
 
 block content
-  h1 Comment will submit to #{submitPath}
+  h1 Comment will submit to
+  a(href=submitPath) here
+
   video(autoplay muted wdith="200px" height="200px")
   a(href="#").js-start
     p Start

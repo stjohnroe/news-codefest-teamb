@@ -11,11 +11,8 @@ module.exports = function(req, res, next) {
 	var userId = "dave"
 	var s3 = new aws.S3();
 	var params = {Bucket: 'codefestb', Key: 'articles/'+storyId+'/'+userId };
-	var submitUrl
 	s3.getSignedUrl('putObject', params, function (err, url) {
 	  console.log("The URL is", url);
-	  submitUrl = url
+	  res.render('create', { title: 'The Sun', submitPath: url});
 	});
-	
-	res.render('create', { title: 'The Sun', submitPath: submitUrl});
 };
