@@ -32,11 +32,24 @@ function onMediaSuccess(stream) {
   multiStreamRecorder.videoWidth = 320;
   multiStreamRecorder.videoHeight = 240;
   multiStreamRecorder.ondataavailable = function (blob) {
-    console.log(blob);
+    save('josh', blob);
   }
   multiStreamRecorder.start(10 * 1000);
 }
 
 function onMediaError(err) {
   console.log('Warning: ' + err);
+}
+
+function save(userName, blob) {
+  var fileType = 'video';
+  var fileName = userName + '.webm';
+
+  var formData = new FormData();
+  formData.append(fileType + '-filename', fileName);
+  formData.append(fileType + '-blob', blob);
+
+  var request = new XMLHttpRequest();
+  request.open('POST', window.sURL);
+  request.send(formData);
 }
