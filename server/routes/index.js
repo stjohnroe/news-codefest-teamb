@@ -8,8 +8,19 @@ router.get('/', function(req, res, next) {
     async.parallel([
       function (callback) {
           request('http://www.thesun.co.uk/web/thesun/sol/homepage/', function (err, res, body) {
-            var body = JSON.parse(body);
-            callback(body.articleTeasers);
+            var processed = JSON.parse(body);
+            var stories = [];
+            processed.articleTeasers.forEach(function(rec) {
+              if (rec.articleData) {
+                console.log("ouput from ",rec.articleId);
+                for (p in rec) {
+                  console.log(p, typeof(rec[p]));
+                  console.log(rec[p]);
+                }
+                stories.push({ id: rec.articleId, headline: rec["articleData"]["teaserHeadline"] });
+            }
+            })
+            callback(stories);
           })
       },
 

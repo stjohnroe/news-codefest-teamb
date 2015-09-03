@@ -4,8 +4,8 @@ block content
   h1 #{title}
 
   each story in stories
-    .teaser
-      a(href="/#{story.articleId}")
-        h5 A Story
-      a(href="/#{story.articleId}/create")
+    .teasers
+      a(href="/#{story.id}") 	
+        h5 #{story.headline}
+      a(href="/#{story.id}/create")
         h5 Vomment
