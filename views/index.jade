@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1 #{title}
+
+  each story in stories
+    .teaser
+      a(href="/#{story.articleId}")
+        h5 A Story
+      a(href="/#{story.articleId}/create")
+        h5 Vomment
