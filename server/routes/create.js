@@ -2,7 +2,8 @@ module.exports = function(req, res, next) {
 	var request = require('request');
 	var async = require('async');
 	var aws = require('aws-sdk');
-	aws.config.region = 'eu-west-1'
+	aws.config.region = 'eu-west-1';
+  aws.config.sslEnabled = false;
 
 	var storyId = req.params.id
 	for (i in req.params) {
@@ -16,6 +17,6 @@ module.exports = function(req, res, next) {
 	  console.log("The URL is", url);
 	  submitUrl = url
 	});
-	
+
 	res.render('create', { title: 'The Sun', submitPath: submitUrl});
 };
