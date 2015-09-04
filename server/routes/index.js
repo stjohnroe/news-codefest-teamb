@@ -1,6 +1,8 @@
 var express = require('express');
 var request = require('request');
 var async = require('async');
+var aws = require('aws-sdk');
+aws.config.region = 'eu-west-1';
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -17,7 +19,28 @@ router.get('/', function(req, res, next) {
                   console.log(p, typeof(rec[p]));
                   console.log(rec[p]);
                 }
-                stories.push({ id: rec.articleId, headline: rec["articleData"]["teaserHeadline"] });
+
+                var s3 = new aws.S3();
+                var comments []
+
+                var params = {
+                Bucket: 'codefestb', /* required */
+                Prefix: '/articles/' + rec.articleId +'/'
+                };
+                s3.listObjects(params, function(err, data) {
+                  if (err) console.log(err, err.stack); // an error occurred
+                  else {
+
+                    for (v in data.contents) {
+                      comments.push(v.key)
+                    }
+
+                  }
+
+
+                });
+
+                stories.push({ id: rec.articleId, headline: rec["articleData"]["teaserHeadline"] , comments: comments});
             }
             })
             callback(stories);
