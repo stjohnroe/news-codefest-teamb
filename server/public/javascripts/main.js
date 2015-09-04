@@ -33,6 +33,7 @@ function onMediaSuccess(stream) {
   multiStreamRecorder.videoHeight = 240;
   multiStreamRecorder.ondataavailable = function (blob) {
     save('josh', blob);
+    multiStreamRecorder.stop();
   }
   multiStreamRecorder.start(10 * 1000);
 }
