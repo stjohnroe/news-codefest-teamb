@@ -43,7 +43,7 @@ function onMediaError(err) {
 
 function save(userName, blob) {
   var fileType = 'video';
-  var fileName = userName + '.webm';
+  var fileName = userName + '.mp4';
 
   var formData = new FormData();
   formData.append(fileType + '-filename', fileName);
@@ -51,5 +51,7 @@ function save(userName, blob) {
 
   var request = new XMLHttpRequest();
   request.open('PUT', window.sURL);
+  request.setRequestHeader('Content-type','video/mp4');
+  request.setRequestHeader('Access-Control-Request-Method','PUT');
   request.send(formData);
 }
