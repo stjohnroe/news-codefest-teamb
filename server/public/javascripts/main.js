@@ -6,8 +6,8 @@ var mediaConstraints = {
 $(document).ready(function () {
 
   $('.js-start').on('click', function () {
-    if (navigator.webkitGetUserMedia) {
-      navigator.webkitGetUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
+    if (navigator.mozGetUserMedia) {
+      navigator.mozGetUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
       setInterval(function () {
         $('video').hide();
       }, 12 * 1000);
@@ -31,9 +31,9 @@ function onMediaSuccess(stream) {
   multiStreamRecorder.mimeType = 'video/mp4';
   multiStreamRecorder.videoWidth = 320;
   multiStreamRecorder.videoHeight = 240;
-  multiStreamRecorder.ondataavailable = function (blob) {
-    save('josh', blob);
-    multiStreamRecorder.stop();
+  multiStreamRecorder.ondataavailable = function (blob, anythingelse) {
+      save('josh', blob.video);
+      multiStreamRecorder.stop();
   }
   multiStreamRecorder.start(10 * 1000);
 }
@@ -43,16 +43,9 @@ function onMediaError(err) {
 }
 
 function save(userName, blob) {
-  var fileType = 'video';
-  var fileName = userName + '.mp4';
-
-  var formData = new FormData();
-  formData.append(fileType + '-filename', fileName);
-  formData.append(fileType + '-blob', blob);
-
   var request = new XMLHttpRequest();
   request.open('PUT', window.sURL);
   request.setRequestHeader('Content-type','video/mp4');
   request.setRequestHeader('Access-Control-Request-Method','PUT');
-  request.send(formData);
+  request.send(blob);
 }
