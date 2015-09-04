@@ -1,14 +1,16 @@
 extends layout
 
 block content
-  h1 Comment will submit to
-  a(href=submitPath) here
-
-  video(autoplay muted wdith="200px" height="200px")
-  a(href="#").js-start
-    p Start
-  a(href="#").js-comment
-    p Vomment
+  .row
+    .col-md-4
+    .col-md-4
+      h1 Vomment
+      video(autoplay muted wdith="200px" height="200px")
+      a(href="#").js-start
+        p Vomment
+      a(href="/")
+        p back
+    .col-md-4
 
   script.
     window.sURL = '#{submitPath}';
