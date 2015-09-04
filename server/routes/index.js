@@ -7,50 +7,56 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
 
-    async.parallel([
+    async.waterfall([
       function (callback) {
           request('http://www.thesun.co.uk/web/thesun/sol/homepage/', function (err, res, body) {
             var processed = JSON.parse(body);
             var stories = [];
             processed.articleTeasers.forEach(function(rec) {
-              if (rec.articleData) {
-                console.log("ouput from ",rec.articleId);
-                for (p in rec) {
-                  console.log(p, typeof(rec[p]));
-                  console.log(rec[p]);
-                }
-
-                var s3 = new aws.S3();
-                var comments []
-
-                var params = {
-                Bucket: 'codefestb', /* required */
-                Prefix: '/articles/' + rec.articleId +'/'
-                };
-                s3.listObjects(params, function(err, data) {
-                  if (err) console.log(err, err.stack); // an error occurred
-                  else {
-
-                    for (v in data.contents) {
-                      comments.push(v.key)
-                    }
-
-                  }
-
-
-                });
-
-                stories.push({ id: rec.articleId, headline: rec["articleData"]["teaserHeadline"] , comments: comments});
-            }
+              if (rec.articleData) {                
+                stories.push({ id: rec.articleId, headline: rec["articleData"]["teaserHeadline"]});
+              }
             })
-            callback(stories);
+            callback(null, stories);
           })
       },
 
-      ], function (results) {
+      function (stories, callback) {
+        var count = stories.length;
+        var index = 0;
+
+        async.forEachOf(stories, function (story) {
+
+          var s3 = new aws.S3();
+          var comments = [];
+          var params = {
+            Bucket: 'codefestb',
+            Prefix: "articles/" + story.id
+          };
+
+          s3.listObjects(params, function(err, data) {
+            if (err) { 
+              console.log(err, err.stack);
+            } else {
+              if (data.Contents) {
+                data.Contents.forEach(function (v) {
+                  comments.push(v.Key);
+                });
+              }
+            }
+            index++;
+            if (index >= count) {
+              callback(null, stories, stories);
+            }
+          });
+          story.comments = comments;
+        });
+      }
+
+      ], function (err, results, results2) {
         res.render('index',
           { title: 'The Sun',
-            stories: results
+            stories: results2
           });
       });
 

@@ -8,10 +8,9 @@ block content
       .col-md-8
         a(href="/#{story.id}")
           h5 #{story.headline}
-        each c in story.comments
-          h6 #{c}        
-
-
+        if story.comments
+          each c in story.comments
+            video(controls src="https://s3-eu-west-1.amazonaws.com/codefestb/#{c}")
 
       .col-md-4
         a(href="/#{story.id}/create")

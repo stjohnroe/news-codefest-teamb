@@ -30,8 +30,8 @@ function onMediaSuccess(stream) {
   multiStreamRecorder.videoHeight = 240;
   multiStreamRecorder.ondataavailable = function (blob, anythingelse) {
       console.log(blob);
-      var blobURL = URL.createObjectURL(blob.video);
-      document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
+      //var blobURL = URL.createObjectURL(blob.video);
+      //document.write('<a href="' + blobURL + '">' + blobURL + '</a>');
       save('josh', blob.video);
       multiStreamRecorder.stop();
       $('video').hide();
