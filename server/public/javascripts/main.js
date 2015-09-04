@@ -10,7 +10,7 @@ $(document).ready(function () {
       navigator.webkitGetUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
       setInterval(function () {
         $('video').hide();
-      }, 11 * 1000);
+      }, 12 * 1000);
     } else {
         alert('Warning: Your Browser Doesnt support video replies')
     }
@@ -50,6 +50,6 @@ function save(userName, blob) {
   formData.append(fileType + '-blob', blob);
 
   var request = new XMLHttpRequest();
-  request.open('POST', window.sURL);
+  request.open('PUT', window.sURL);
   request.send(formData);
 }
