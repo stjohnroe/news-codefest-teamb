@@ -8,6 +8,11 @@ block content
       .col-md-8
         a(href="/#{story.id}")
           h5 #{story.headline}
+        each c in story.comments
+          h6 #{c}        
+
+
+
       .col-md-4
         a(href="/#{story.id}/create")
           img(src="images/imageedit_8_5842369433.png")
