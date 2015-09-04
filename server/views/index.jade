@@ -2,15 +2,16 @@ extends layout
 
 block content
   h1 #{title}
-
+  
   .row
     each story in stories
       .col-md-8
         a(href="/#{story.id}")
           h5 #{story.headline}
+        h6 Vomments
         if story.comments
           each c in story.comments
-            video(controls src="https://s3-eu-west-1.amazonaws.com/codefestb/#{c}")
+            video(controls width="150px" src="https://s3-eu-west-1.amazonaws.com/codefestb/#{c}")
 
       .col-md-4
         a(href="/#{story.id}/create")
